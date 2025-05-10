@@ -34,4 +34,4 @@ jobs:
         git pull --rebase
         git add gold_rates.csv
         git commit -m "Update gold rate" || echo "No changes to commit"
-        git push origin HEAD:mai
+        git push origin HEAD:main
