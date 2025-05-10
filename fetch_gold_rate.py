@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,6 +15,11 @@ url = "https://www.grtjewels.com/"
 
 # Open the webpage
 driver.get(url)
+
+# Give the page some time to load
+time.sleep(5)  # Wait for 5 seconds
+
+print(driver.page_source)
 
 try:
     # Wait for the element to be clickable
