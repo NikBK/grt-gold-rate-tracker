@@ -1,27 +1,29 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 from datetime import datetime
 import csv
 import os
 
+# Set up the WebDriver (Assuming you have ChromeDriver installed)
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')  # Run in headless mode (no GUI)
+
+driver = webdriver.Chrome(options=options)
+
 # URL of GRT Jewellers' homepage
 url = "https://www.grtjewels.com/"
 
-# Send a GET request to the website
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-print(f"Response: {response}")
-print(f"Soup: {soup}")
+# Open the webpage
+driver.get(url)
 
-# Find the element containing the gold rate
-# Now, we'll extract the gold rate directly from the button's text
-gold_rate_element = soup.find('button', id='dropdown-basic-button1')
-print(f"Element carring Gold rate: ₹{gold_rate_element}")
+# Wait for the page to load completely
+driver.implicitly_wait(10)  # Wait up to 10 seconds
 
-if gold_rate_element:
-    gold_rate = gold_rate_element.text.split('₹')[1].strip()  # Extract the value after ₹ symbol
-else:
-    gold_rate = 'N/A'
+# Extract the gold rate from the button with id 'dropdown-basic-button1'
+gold_rate_element = driver.find_element(By.ID, 'dropdown-basic-button1')
+
+# Get the text (which contains the gold rate)
+gold_rate = gold_rate_element.text.split('₹')[1].strip() if gold_rate_element else 'N/A'
 
 # Get today's date
 today = datetime.now().strftime('%Y-%m-%d')
@@ -40,3 +42,6 @@ with open(csv_file, 'a', newline='') as file:
     writer.writerow([today, gold_rate])
 
 print(f"Gold rate: ₹{gold_rate} on {today}")
+
+# Close the WebDriver
+driver.quit()
