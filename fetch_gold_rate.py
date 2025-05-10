@@ -6,13 +6,17 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Set up the Chrome WebDriver with options
-options = Options()
-options.headless = False  # Set to True if you want to run without opening the browser window
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# Set up the WebDriver (Assuming you have ChromeDriver installed)
+options = webdriver.ChromeOptions()
+options.add_argument('--headless')  # Run in headless mode (no GUI)
 
-# Open the page
-driver.get("https://www.grtjewels.com/")
+driver = webdriver.Chrome(options=options)
+
+# URL of GRT Jewellers' homepage
+url = "https://www.grtjewels.com/"
+
+# Open the webpage
+driver.get(url)
 
 try:
     # Wait for the element to be clickable
