@@ -1,47 +1,32 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from datetime import datetime
-import csv
-import os
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Set up the WebDriver (Assuming you have ChromeDriver installed)
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')  # Run in headless mode (no GUI)
+# Set up the Chrome WebDriver with options
+options = Options()
+options.headless = False  # Set to True if you want to run without opening the browser window
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-driver = webdriver.Chrome(options=options)
+# Open the page
+driver.get("https://www.grtjewels.com/")
 
-# URL of GRT Jewellers' homepage
-url = "https://www.grtjewels.com/"
+try:
+    # Wait for the element to be clickable
+    dropdown_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, "dropdown-basic-button1"))
+    )
+    dropdown_button.click()
 
-# Open the webpage
-driver.get(url)
+    # Now you can interact with the element, for example:
+    gold_rate_element = driver.find_element(By.ID, 'dropdown-basic-button1')
+    print(gold_rate_element.text)
 
-# Wait for the page to load completely
-driver.implicitly_wait(10)  # Wait up to 10 seconds
+except Exception as e:
+    print("Error:", e)
 
-# Extract the gold rate from the button with id 'dropdown-basic-button1'
-gold_rate_element = driver.find_element(By.ID, 'dropdown-basic-button1')
-
-# Get the text (which contains the gold rate)
-gold_rate = gold_rate_element.text.split('₹')[1].strip() if gold_rate_element else 'N/A'
-
-# Get today's date
-today = datetime.now().strftime('%Y-%m-%d')
-
-# Define the CSV file path
-csv_file = 'gold_rates.csv'
-
-# Check if the CSV file exists
-file_exists = os.path.isfile(csv_file)
-
-# Write data to CSV
-with open(csv_file, 'a', newline='') as file:
-    writer = csv.writer(file)
-    if not file_exists:
-        writer.writerow(['Date', 'Gold Rate (22KT)'])
-    writer.writerow([today, gold_rate])
-
-print(f"Gold rate: ₹{gold_rate} on {today}")
-
-# Close the WebDriver
-driver.quit()
+finally:
+    driver.quit()
