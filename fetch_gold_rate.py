@@ -10,6 +10,8 @@ url = "https://www.grtjewels.com/"
 # Send a GET request to the website
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
+print(f"Response: {response}")
+print(f"Soup: {soup}")
 
 # Find the element containing the gold rate
 # Now, we'll extract the gold rate directly from the button's text
