@@ -5,10 +5,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # Set up the WebDriver (Assuming you have ChromeDriver installed)
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')  # Run in headless mode (no GUI)
+#options = webdriver.ChromeOptions()
+#options.add_argument('--headless')  # Run in headless mode (no GUI)
+#driver = webdriver.Chrome(options=options)
 
-driver = webdriver.Chrome(options=options)
+import undetected_chromedriver as uc
+
+options = uc.ChromeOptions()
+options.add_argument("--headless=new")  # Optional: run headless
+driver = uc.Chrome(options=options)
 
 # URL of GRT Jewellers' homepage
 url = "https://www.grtjewels.com/"
