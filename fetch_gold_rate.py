@@ -12,9 +12,14 @@ response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # Find the element containing the gold rate
-# Note: The actual selector may vary; inspect the website's HTML to find the correct one
-gold_rate_element = soup.find('button', id='dropdown-basic-button1')  # Placeholder selector
-gold_rate = gold_rate_element.text.strip() if gold_rate_element else 'N/A'
+# Now, we'll extract the gold rate directly from the button's text
+gold_rate_element = soup.find('button', id='dropdown-basic-button1')
+print(f"Element carring Gold rate: ₹{gold_rate_element}")
+
+if gold_rate_element:
+    gold_rate = gold_rate_element.text.split('₹')[1].strip()  # Extract the value after ₹ symbol
+else:
+    gold_rate = 'N/A'
 
 # Get today's date
 today = datetime.now().strftime('%Y-%m-%d')
@@ -31,3 +36,5 @@ with open(csv_file, 'a', newline='') as file:
     if not file_exists:
         writer.writerow(['Date', 'Gold Rate (22KT)'])
     writer.writerow([today, gold_rate])
+
+print(f"Gold rate: ₹{gold_rate} on {today}")
