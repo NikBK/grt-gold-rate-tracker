@@ -13,7 +13,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 
 # Find the element containing the gold rate
 # Note: The actual selector may vary; inspect the website's HTML to find the correct one
-gold_rate_element = soup.find('button', id_='dropdown-basic-button1')  # Placeholder selector
+gold_rate_element = soup.find('button', id='dropdown-basic-button1')  # Placeholder selector
 gold_rate = gold_rate_element.text.strip() if gold_rate_element else 'N/A'
 
 # Get today's date
