@@ -1,6 +1,8 @@
 import requests
 import json
 import datetime
+import csv
+import os
 
 API_KEY = '505d67dd036ca01201d41f44124e3839505d67dd'  # Replace with your actual API key
 CURRENCY = 'inr'
@@ -15,15 +17,28 @@ headers = {
 try:
     response = requests.get(url, headers=headers)
     response.raise_for_status()
+
     outer_data = response.json()
-    if isinstance(outer_data, str):
-        data = json.loads(outer_data)
-    else:
-        data = outer_data
-    print(f"response in json: {data}")
-    price = data['gram_in_inr']
-    print(f"price: {price}")
+    data = json.loads(outer_data) if isinstance(outer_data, str) else outer_data
+
+    # Get and round price
+    price_inr_per_gram = round(data['gram_in_inr'], 2)
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"{timestamp} - Gold Price: ₹{price} per gram")
+    print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram")
+
+    # CSV file path
+    csv_file = 'gold_rates.csv'
+
+    # Write header if file doesn't exist
+    write_header = not os.path.exists(csv_file)
+
+    with open(csv_file, 'a', newline='') as file:
+        writer = csv.writer(file)
+        if write_header:
+            writer.writerow(['Timestamp', 'Price (INR/gram)'])
+        writer.writerow([timestamp, price_inr_per_gram])
+
 except requests.exceptions.RequestException as e:
     print(f"Error fetching gold price: {e}")
+except json.JSONDecodeError as e:
+    print(f"Error decoding JSON: {e}")
