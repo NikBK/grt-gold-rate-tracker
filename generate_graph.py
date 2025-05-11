@@ -15,12 +15,11 @@ grouped = df.groupby('Month')
 markers = ['o', 's', '^', 'D', '*', 'x', 'v']  # Enough for 7 months
 colors = plt.cm.tab10.colors  # Default color palette
 
-for month, group in grouped:
-    # Sort by day for correct line plotting
-    group_sorted = group.sort_values(by='Day')
+for i, (month, group) in enumerate(grouped):
+    group = group.sort_values(by='Day').drop_duplicates(subset='Day')  # Avoid duplicate days
     plt.plot(
-        group_sorted['Day'],
-        group_sorted['GRT Rate (approx)'],
+        group['Day'],
+        group['GRT Rate (approx)'],
         marker=markers[i % len(markers)],
         color=colors[i % len(colors)],
         label=month,
