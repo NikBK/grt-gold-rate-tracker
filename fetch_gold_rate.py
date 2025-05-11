@@ -1,42 +1,44 @@
 import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
+import json
+import datetime
 import csv
 import os
 
-# URL of GRT Jewellers' homepage
-url = "https://www.grtjewels.com/"
+API_KEY = '505d67dd036ca01201d41f44124e3839505d67dd'  # Replace with your actual API key
+CURRENCY = 'inr'
+UNIT = 'gram'
 
-# Send a GET request to the website
-response = requests.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
-print(f"Response: {response}")
-print(f"Soup: {soup}")
+url = f'https://goldpricez.com/api/rates/currency/{CURRENCY}/measure/{UNIT}'
 
-# Find the element containing the gold rate
-# Now, we'll extract the gold rate directly from the button's text
-gold_rate_element = soup.find('button', id='dropdown-basic-button1')
-print(f"Element carring Gold rate: ₹{gold_rate_element}")
+headers = {
+    'X-API-KEY': API_KEY
+}
 
-if gold_rate_element:
-    gold_rate = gold_rate_element.text.split('₹')[1].strip()  # Extract the value after ₹ symbol
-else:
-    gold_rate = 'N/A'
+try:
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
 
-# Get today's date
-today = datetime.now().strftime('%Y-%m-%d')
+    outer_data = response.json()
+    data = json.loads(outer_data) if isinstance(outer_data, str) else outer_data
 
-# Define the CSV file path
-csv_file = 'gold_rates.csv'
+    # Get and round price
+    price_inr_per_gram = round(data['gram_in_inr'], 2)
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram")
 
-# Check if the CSV file exists
-file_exists = os.path.isfile(csv_file)
+    # CSV file path
+    csv_file = 'gold_rates.csv'
 
-# Write data to CSV
-with open(csv_file, 'a', newline='') as file:
-    writer = csv.writer(file)
-    if not file_exists:
-        writer.writerow(['Date', 'Gold Rate (22KT)'])
-    writer.writerow([today, gold_rate])
+    # Write header if file doesn't exist
+    write_header = not os.path.exists(csv_file)
 
-print(f"Gold rate: ₹{gold_rate} on {today}")
+    with open(csv_file, 'a', newline='') as file:
+        writer = csv.writer(file)
+        if write_header:
+            writer.writerow(['Date & Time', 'Price (INR/gram)'])
+        writer.writerow([timestamp, price_inr_per_gram])
+
+except requests.exceptions.RequestException as e:
+    print(f"Error fetching gold price: {e}")
+except json.JSONDecodeError as e:
+    print(f"Error decoding JSON: {e}")
