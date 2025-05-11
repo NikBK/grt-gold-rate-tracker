@@ -23,8 +23,9 @@ try:
 
     # Get and round price
     price_inr_per_gram = round(data['gram_in_inr'])
+    grt_approx_rate = price_inr_per_gram * 0.991
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram")
+    print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram & approx grt price: ₹{grt_approx_rate}")
 
     # CSV file path
     csv_file = 'gold_rates.csv'
@@ -35,8 +36,8 @@ try:
     with open(csv_file, 'a', newline='') as file:
         writer = csv.writer(file)
         if write_header:
-            writer.writerow(['Date', 'Gold Rate (22KT)'])
-        writer.writerow([timestamp, price_inr_per_gram])
+            writer.writerow(['Date', 'Gold Rate (22KT)', 'GRT Rate (approx)'])
+        writer.writerow([timestamp, price_inr_per_gram, grt_approx_rate])
 
 except requests.exceptions.RequestException as e:
     print(f"Error fetching gold price: {e}")
