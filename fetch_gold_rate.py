@@ -14,7 +14,11 @@ headers = {
 try:
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    data = response.json()
+    outer_data = response.json()
+    if isinstance(outer_data, str):
+        data = json.loads(outer_data)
+    else:
+        data = outer_data
     print(f"response in json: {data}")
     price = data['gram_in_inr']
     print(f"price: {price}")
