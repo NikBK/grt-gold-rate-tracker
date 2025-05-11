@@ -26,7 +26,7 @@ for i, (month, group) in enumerate(grouped):
         linewidth=2
     )
 
-plt.title("📈 GRT Daily Gold Rate Trend by Month")
+plt.title("GRT Daily Gold Rate Trend by Month")
 plt.xlabel("Day of Month")
 plt.ylabel("GRT Rate (₹/gram)")
 plt.xticks(range(1, 32))
