@@ -22,7 +22,7 @@ try:
     data = json.loads(outer_data) if isinstance(outer_data, str) else outer_data
 
     # Get and round price
-    price_inr_per_gram = round(data['gram_in_inr'], 2)
+    price_inr_per_gram = round(data['gram_in_inr'])
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram")
 
