@@ -9,7 +9,7 @@ df['Day'] = df['Date'].dt.day
 df['Month'] = df['Date'].dt.strftime('%b %Y')  # e.g., Apr 2025
 
 # Plot
-plt.figure(figsize=(12, 7))
+plt.figure(figsize=(14, 7))
 
 grouped = df.groupby('Month')
 
@@ -28,7 +28,10 @@ plt.xlabel("Day of Month")
 plt.ylabel("GRT Rate (₹/gram)")
 plt.xticks(range(1, 32))
 plt.grid(True)
-plt.legend(title="Month", loc="upper left")
-plt.tight_layout()
 
-plt.savefig("gold_trend.png")
+# Move legend outside plot
+plt.legend(title="Month", bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout(rect=[0, 0, 0.8, 1])  # Leave space on right
+
+# Save
+plt.savefig("gold_trend.png", bbox_inches='tight')
