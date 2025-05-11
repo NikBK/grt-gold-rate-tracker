@@ -36,4 +36,4 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.GH_PAT_TOKEN }}@github.com/${{ github.repository }}
         git add gold_rates.csv gold_trend.png
         git commit -m "Update gold rate and chart" || echo "No changes to commit"
-        git push origin HEAD:main
+        git push origin HEAD:generate_graph
