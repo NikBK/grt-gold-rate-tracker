@@ -12,6 +12,8 @@ df['Month'] = df['Date'].dt.strftime('%b %Y')  # e.g., Apr 2025
 plt.figure(figsize=(14, 7))
 
 grouped = df.groupby('Month')
+markers = ['o', 's', '^', 'D', '*', 'x', 'v']  # Enough for 7 months
+colors = plt.cm.tab10.colors  # Default color palette
 
 for month, group in grouped:
     # Sort by day for correct line plotting
@@ -19,8 +21,10 @@ for month, group in grouped:
     plt.plot(
         group_sorted['Day'],
         group_sorted['GRT Rate (approx)'],
-        marker='o',
-        label=month
+        marker=markers[i % len(markers)],
+        color=colors[i % len(colors)],
+        label=month,
+        linewidth=2
     )
 
 plt.title("📈 GRT Daily Gold Rate Trend by Month")
