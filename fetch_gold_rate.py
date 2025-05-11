@@ -35,7 +35,7 @@ try:
     with open(csv_file, 'a', newline='') as file:
         writer = csv.writer(file)
         if write_header:
-            writer.writerow(['Timestamp', 'Price (INR/gram)'])
+            writer.writerow(['Date & Time', 'Price (INR/gram)'])
         writer.writerow([timestamp, price_inr_per_gram])
 
 except requests.exceptions.RequestException as e:
