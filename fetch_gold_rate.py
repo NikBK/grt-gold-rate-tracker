@@ -16,7 +16,8 @@ try:
     response.raise_for_status()
     data = response.json()
     print(f"response in json: {data}")
-    price = data['price']
+    price = data['gram_in_inr']
+    print(f"price: {price}")
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f"{timestamp} - Gold Price: ₹{price} per gram")
 except requests.exceptions.RequestException as e:
