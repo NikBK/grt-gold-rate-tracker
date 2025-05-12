@@ -8,6 +8,8 @@ def fetch_gold_rate():
         response = requests.get(url)
         response.raise_for_status()
 
+        print(f"response {response.text}")
+
         soup = BeautifulSoup(response.text, 'html.parser')
 
         gold_rate_input = soup.find('input', {'id': 'goldRate22KT'})
