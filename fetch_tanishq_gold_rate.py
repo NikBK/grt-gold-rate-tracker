@@ -3,12 +3,18 @@ from bs4 import BeautifulSoup
 
 def fetch_gold_rate():
     url = 'https://www.tanishq.co.in/gold-rate.html?lang=en_IN'
-    
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
 
-        print(f"response {response.text}")
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+                      'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+                      'Chrome/113.0.0.0 Safari/537.36',
+        'Referer': 'https://www.tanishq.co.in/',
+        'Accept-Language': 'en-US,en;q=0.9',
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
 
         soup = BeautifulSoup(response.text, 'html.parser')
 
