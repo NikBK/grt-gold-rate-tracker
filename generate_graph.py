@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np  # For custom tick calculations
 
 # Load data
 df = pd.read_csv("gold_rates.csv", parse_dates=['Date'])
@@ -25,6 +26,13 @@ for i, (month, group) in enumerate(grouped):
         label=month,
         linewidth=2
     )
+
+# Custom Y-axis ticks at 50-unit intervals
+min_rate = df['GRT Rate (approx)'].min()
+max_rate = df['GRT Rate (approx)'].max()
+start = int(np.floor(min_rate / 50) * 50)
+end = int(np.ceil(max_rate / 50) * 50)
+plt.yticks(np.arange(start, end + 1, 50))
 
 plt.title("GRT Daily Gold Rate Trend by Month")
 plt.xlabel("Day of Month")
