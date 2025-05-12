@@ -2,7 +2,7 @@ name: Fetch Gold Rate Daily
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Runs daily at 6 AM UTC
+    - cron: '30 11 * * *'  # Runs daily at 11:30 UTC = 17:00 IST (05:00 PM)
   workflow_dispatch:
 
 jobs:
