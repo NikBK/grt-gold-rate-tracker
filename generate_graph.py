@@ -27,7 +27,7 @@ for i, (month, group) in enumerate(grouped):
         linewidth=2
     )
 
-# Custom Y-axis ticks at 10-unit intervals
+# Custom Y-axis ticks at 20-unit intervals
 min_rate = df['GRT Rate (approx)'].min()
 max_rate = df['GRT Rate (approx)'].max()
 start = int(np.floor(min_rate / 20) * 20)
