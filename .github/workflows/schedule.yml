@@ -2,7 +2,7 @@ name: Fetch Gold Rate Daily
 
 on:
   schedule:
-    - cron: '30 11 * * *'  # Runs daily at 11:30 UTC = 17:00 IST (05:00 PM)
+    - cron: '30 07 * * *'  # Runs daily at 07:30 UTC = 13:00 IST (01:00 PM)
   workflow_dispatch:
 
 jobs:
@@ -23,7 +23,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests pandas matplotlib
 
-    
+    - name: Run script
+      run: python fetch_gold_rate.py
 
     - name: Generate graph
       run: python generate_graph.py
