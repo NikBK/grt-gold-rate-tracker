@@ -27,12 +27,12 @@ for i, (month, group) in enumerate(grouped):
         linewidth=2
     )
 
-# Custom Y-axis ticks at 20-unit intervals
+# Custom Y-axis ticks at 10-unit intervals
 min_rate = df['GRT Rate (approx)'].min()
 max_rate = df['GRT Rate (approx)'].max()
-start = int(np.floor(min_rate / 20) * 20)
-end = int(np.ceil(max_rate / 20) * 20)
-plt.yticks(np.arange(start, end + 1, 20))
+start = int(np.floor(min_rate / 10) * 10)
+end = int(np.ceil(max_rate / 10) * 10)
+plt.yticks(np.arange(start, end + 1, 10))
 
 plt.title("GRT Daily Gold Rate Trend by Month")
 plt.xlabel("Day of Month")
