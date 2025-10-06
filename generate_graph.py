@@ -10,7 +10,7 @@ df['Day'] = df['Date'].dt.day
 df['Month'] = df['Date'].dt.strftime('%b %Y')  # e.g., Apr 2025
 
 # Plot
-plt.figure(figsize=(14, 12))
+plt.figure(figsize=(14, 16))
 
 grouped = df.groupby('Month')
 markers = ['o', 's', '^', 'D', '*', 'x', 'v']  # Enough for 7 months
