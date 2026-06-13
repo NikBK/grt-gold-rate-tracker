@@ -23,7 +23,8 @@ try:
 
     # Get and round price
     price_inr_per_gram = round(data['gram_in_inr'])
-    grt_approx_rate = round(price_inr_per_gram * 0.9909)
+    # previous multiplier 0.9909, now 1.06
+    grt_approx_rate = round(price_inr_per_gram * 1.06)
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(f"{timestamp} - Gold Price: ₹{price_inr_per_gram:.2f} per gram & approx grt price: ₹{grt_approx_rate}")
 
